@@ -1,5 +1,5 @@
 {
-  "name": "blobnoise",
+  "name": "@zipilot/blobnoise",
   "version": "0.1.0",
   "description": "Seeded organic Perlin textures, animated spheres and browser-native exports.",
   "type": "module",
@@ -53,5 +53,9 @@
   "homepage": "https://d16acm1lzz4dn2.cloudfront.net/",
   "bugs": {
     "url": "https://github.com/zipilot/blobnoise/issues"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
   }
 }

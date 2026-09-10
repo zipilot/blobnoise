@@ -40,7 +40,7 @@ test("decorative copy is absent and dialogs use functional labels", async ({ pag
   await expect(page.getByRole("heading", { name: "Presets", exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Get code", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Code and configuration" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Package setup" })).toHaveAttribute("href", "https://github.com/zipilot/blobnoise#embed");
+  await expect(page.getByRole("link", { name: "Package setup" })).toHaveAttribute("href", "https://github.com/zipilot/blobnoise#install-the-package");
   await expect(page.getByRole("dialog")).not.toContainText("npm install blobnoise");
   await page.getByRole("button", { name: "Close dialog" }).click();
   await page.getByRole("button", { name: "Export", exact: true }).click();
@@ -240,7 +240,7 @@ test("full code/config export and unavailable clipboard report honestly", async 
   await page.evaluate(() => Object.defineProperty(navigator, "clipboard", { configurable: true, value: undefined }));
   await page.getByRole("button", { name: "Get code", exact: true }).click();
   const snippet = page.getByRole("textbox", { name: "JavaScript snippet" });
-  await expect(snippet).toContainText('import { createRenderer } from "blobnoise/browser"');
+  await expect(snippet).toContainText('import { createRenderer } from "@zipilot/blobnoise/browser"');
   await expect(snippet).toContainText('"algorithmVersion": "perlin-v1"');
   await expect(snippet).toContainText("renderer.dispose()");
   await page.getByRole("button", { name: "Copy JavaScript" }).click();

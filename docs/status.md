@@ -7,7 +7,8 @@ and physical-device performance remain subject to the limits below.
 - Studio: [public CloudFront website](https://d16acm1lzz4dn2.cloudfront.net/).
 - Hosting: `blobnoise-studio` CloudFormation stack and S3 origin in us-east-2;
   CloudFront delivery is global.
-- npm: not published.
+- npm-format package: `@zipilot/blobnoise`, targeting GitHub Packages.
+  Publication verification is in progress; no npmjs.org release is planned.
 
 ## Package
 
@@ -37,8 +38,8 @@ production builds.
 The 2026-09-10 interface refinement removes decorative slogans, counters and
 version badges. A dedicated **Randomize colors** action preserves seed,
 shape, motion, color-stop count/positions and other settings, and participates
-in palette locking and undo/redo. The code dialog links to actual source
-installation instructions rather than an unpublished npm command.
+in palette locking and undo/redo. The code dialog links to registry/authentication setup and uses the scoped
+package name rather than assuming an unscoped npmjs.org publication.
 
 ## Initial implementation evidence recorded on this host
 
@@ -82,11 +83,12 @@ AI image service, cloud save or telemetry is implemented.
 ## Release status
 
 Source is committed and pushed to its own public GitHub repository. A distributable
-`blobnoise-0.1.0.tgz` archive and `apps/studio/dist` are generated artifacts,
+package archive and `apps/studio/dist` are generated artifacts,
 not tracked source or evidence of external publication.
 
-The repository is `zipilot/blobnoise`; the npm name `blobnoise`
-returned registry 404 on 2026-09-10 and is not reserved by this lookup.
+The repository is `zipilot/blobnoise`; the GitHub npm registry requires the
+scoped package name `@zipilot/blobnoise`. The earlier unscoped local name was
+never an npmjs.org release.
 MIT was selected as the implementation default for original project code.
 Mediabunny 1.56.1 is MPL-2.0, not MIT; its source availability and notices are
 documented in the project NOTICE and generated third-party license output.
@@ -96,7 +98,9 @@ studio is deployed behind CloudFront with a private, encrypted, versioned
 S3 origin, HTTPS redirection and scoped read-only origin access. The
 repository CI completed successfully after the initial push.
 
-No npm publication or custom domain was configured. See
+GitHub Packages publication was requested separately on 2026-09-10; see
+[package distribution](packages.md) for installation and authentication.
+No npmjs.org publication or custom domain was configured. See
 [hosting](hosting.md) for deployment, cost and teardown details. Physical
 device testing and broader browser evidence remain release-quality follow-ups,
 not established guarantees.

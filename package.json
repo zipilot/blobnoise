@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace @blobnoise/studio --",
-    "build:package": "npm run build --workspace blobnoise",
+    "build:package": "npm run build --workspace @zipilot/blobnoise",
     "build": "npm run build:package && npm run build --workspace @blobnoise/studio",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

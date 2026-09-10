@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
-import { getPreset, presetNames, randomSeed, serializeConfig, type BlobConfig } from "blobnoise";
+import { getPreset, presetNames, randomSeed, serializeConfig, type BlobConfig } from "@zipilot/blobnoise";
 import { useStudioConfig, errorMessage } from "./hooks/useStudioConfig";
 import { usePreview } from "./hooks/usePreview";
 import { ConfigDialog } from "./components/ConfigDialog";

@@ -6,7 +6,8 @@ renderer in your own JavaScript application.
 
 **[Open the live studio](https://d16acm1lzz4dn2.cloudfront.net/)**
 or browse [the source on GitHub](https://github.com/zipilot/blobnoise).
-The website is publicly hosted on AWS; the npm package is not yet published.
+The website is publicly hosted on AWS. The npm package uses the
+`@zipilot/blobnoise` scope and GitHub Packages registry.
 See [implementation status](docs/status.md) for supported paths and limits.
 
 ## Run the studio
@@ -41,14 +42,33 @@ npm run test:browser
 `apps/studio/dist`; it can be served by an ordinary static host. The browser
 harness is development-only and is not a production build entry point.
 
+## Install the package
+
+Configure GitHub's registry for the `@zipilot` scope, authenticate, then install:
+
+```sh
+npm config set @zipilot:registry=https://npm.pkg.github.com --location=project
+npm login --scope=@zipilot --auth-type=legacy --registry=https://npm.pkg.github.com
+npm install @zipilot/blobnoise@0.1.0
+```
+
+For `npm login`, use your GitHub username and a **personal access token
+(classic)** with `read:packages` and access to the package. GitHub's npm
+registry requires authentication even for public packages. Do not put the
+token in source code or commit it; the project's `.npmrc` only needs the
+non-secret scope-to-registry mapping.
+
+See [package distribution](docs/packages.md) for GitHub Actions installation,
+permissions and publishing. The package is not published to npmjs.org.
+
 ## Embed
 
-Build the package first. While unpublished, install a local package directory
-or a tarball produced by `npm pack --workspace blobnoise`.
+Import the scoped package after installation. Local source consumers can
+also build and use `npm pack --workspace @zipilot/blobnoise`.
 
 ```js
-import { createConfig } from "blobnoise";
-import { createRenderer } from "blobnoise/browser";
+import { createConfig } from "@zipilot/blobnoise";
+import { createRenderer } from "@zipilot/blobnoise/browser";
 
 const canvas = document.querySelector("canvas");
 const config = createConfig({
@@ -69,7 +89,7 @@ imported during SSR, but creating a renderer needs an actual browser.
 ## Create assets
 
 ```js
-import { exportWebP, exportWebM } from "blobnoise/export";
+import { exportWebP, exportWebM } from "@zipilot/blobnoise/export";
 
 const still = await exportWebP(config, {
   width: 2048, height: 2048, timeSeconds: 2, background: "transparent",

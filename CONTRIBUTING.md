@@ -24,5 +24,7 @@ branding, personal data, credentials, telemetry or uploaded design data.
 
 Publishing the package or deploying the website is a separate maintainer
 action. CI builds and exercises the project; it does not publish anything.
+The manually dispatched package workflow uses a scoped Actions token; follow
+[package distribution](docs/packages.md) for versions and registry access.
 Authorized maintainers can deploy with `bash scripts/deploy-studio.sh`; see
 [hosting](docs/hosting.md) for the AWS scope and public smoke command.
