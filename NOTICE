@@ -1,0 +1,19 @@
+blobnoise's procedural shaders and presets are original project code.
+ElevenLabs was a visual reference only; no ElevenLabs source or assets are
+included. There is no affiliation or endorsement.
+
+Runtime dependencies are independently distributed under their own licenses:
+- Three.js: MIT, https://github.com/mrdoob/three.js
+- Zod: MIT, https://github.com/colinhacks/zod
+- Mediabunny: MPL-2.0, https://github.com/Vanilagy/mediabunny
+- React (optional adapter peer; studio dependency): MIT,
+  https://github.com/facebook/react
+- React DOM (studio dependency): MIT, https://github.com/facebook/react
+
+The published library keeps these dependencies external. Static studio builds
+bundle their code; distribute the corresponding third-party license notices
+with those builds. No dependency code is modified by this project.
+
+The exact unmodified Mediabunny 1.56.1 package, including its covered source
+and full MPL-2.0 license, is available from:
+https://registry.npmjs.org/mediabunny/-/mediabunny-1.56.1.tgz

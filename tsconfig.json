@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "blobnoise": ["./packages/blobnoise/src/index.ts"],
+      "blobnoise/browser": ["./packages/blobnoise/src/browser/index.ts"],
+      "blobnoise/export": ["./packages/blobnoise/src/export/index.ts"],
+      "blobnoise/react": ["./packages/blobnoise/src/react/index.tsx"]
+    }
+  },
+  "include": ["packages/**/*.ts", "packages/**/*.tsx", "apps/**/*.ts", "apps/**/*.tsx", "tests/**/*.ts", "*.ts"]
+}

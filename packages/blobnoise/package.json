@@ -1,0 +1,25 @@
+{
+  "name": "blobnoise",
+  "version": "0.1.0",
+  "description": "Seeded organic Perlin textures, animated spheres and browser-native exports.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "files": ["dist", "README.md", "LICENSE", "NOTICE"],
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./browser": { "types": "./dist/browser/index.d.ts", "import": "./dist/browser/index.js" },
+    "./export": { "types": "./dist/export/index.d.ts", "import": "./dist/export/index.js" },
+    "./react": { "types": "./dist/react/index.d.ts", "import": "./dist/react/index.js" }
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "dependencies": {
+    "mediabunny": "1.56.1",
+    "three": "0.186.0",
+    "zod": "4.6.1"
+  },
+  "peerDependencies": { "react": ">=18" },
+  "peerDependenciesMeta": { "react": { "optional": true } }
+}
