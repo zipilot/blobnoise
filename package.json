@@ -13,6 +13,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:browser": "playwright test",
+    "smoke:studio": "node scripts/smoke-studio.mjs",
     "check": "npm run typecheck && npm test && npm run build && npm run test:browser"
   },
   "overrides": {

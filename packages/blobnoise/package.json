@@ -5,12 +5,29 @@
   "type": "module",
   "license": "MIT",
   "sideEffects": false,
-  "files": ["dist", "README.md", "LICENSE", "NOTICE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "NOTICE"
+  ],
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
-    "./browser": { "types": "./dist/browser/index.d.ts", "import": "./dist/browser/index.js" },
-    "./export": { "types": "./dist/export/index.d.ts", "import": "./dist/export/index.js" },
-    "./react": { "types": "./dist/react/index.d.ts", "import": "./dist/react/index.js" }
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser/index.d.ts",
+      "import": "./dist/browser/index.js"
+    },
+    "./export": {
+      "types": "./dist/export/index.d.ts",
+      "import": "./dist/export/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js"
+    }
   },
   "scripts": {
     "build": "tsup"
@@ -20,6 +37,21 @@
     "three": "0.186.0",
     "zod": "4.6.1"
   },
-  "peerDependencies": { "react": ">=18" },
-  "peerDependenciesMeta": { "react": { "optional": true } }
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zipilot/blobnoise.git",
+    "directory": "packages/blobnoise"
+  },
+  "homepage": "https://d16acm1lzz4dn2.cloudfront.net/",
+  "bugs": {
+    "url": "https://github.com/zipilot/blobnoise/issues"
+  }
 }

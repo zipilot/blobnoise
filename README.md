@@ -4,9 +4,10 @@ Original, organic Perlin-noise textures and animated 3D spheres for the browser.
 Shape a cloudy material in the studio, save its configuration, and use the same
 renderer in your own JavaScript application.
 
-**Development status:** local implementation, not an npm publication or hosted
-service. The intended project home is `zipilot/blobnoise`. See
-[implementation status](docs/status.md) for supported paths and release gates.
+**[Open the live studio](https://d16acm1lzz4dn2.cloudfront.net/)**
+or browse [the source on GitHub](https://github.com/zipilot/blobnoise).
+The website is publicly hosted on AWS; the npm package is not yet published.
+See [implementation status](docs/status.md) for supported paths and limits.
 
 ## Run the studio
 
@@ -18,7 +19,10 @@ npm run dev
 ```
 
 Open the local URL printed by Vite. Designs and exports stay in your browser.
-The studio has no accounts, hosted rendering API, analytics or remote assets.
+The studio has no accounts, hosted rendering API, analytics or third-party
+asset services.
+The public host serves the application files; generation and exports run on
+your own device.
 
 ```sh
 npm run typecheck
@@ -94,6 +98,14 @@ the duplicate endpoint frame.
 
 Per-device GPU rounding and codecs may differ. Reproducible inputs and
 timelines do not mean byte-identical videos on every machine.
+
+## Hosting and remote development
+
+The public studio uses a private S3 origin in us-east-2 and global CloudFront
+HTTPS delivery. It does not expose an EC2 development port.
+
+[Hosting instructions](docs/hosting.md) cover repeatable deployment, costs,
+rollback and SSH port forwarding for private development without Tailscale.
 
 ## Project layout
 

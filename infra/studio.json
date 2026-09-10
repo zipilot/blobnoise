@@ -1,0 +1,168 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Public blobnoise studio: private S3 origin in us-east-2, HTTPS via CloudFront. No server-side rendering.",
+  "Resources": {
+    "StudioBucket": {
+      "Type": "AWS::S3::Bucket",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "OwnershipControls": {
+          "Rules": [{ "ObjectOwnership": "BucketOwnerEnforced" }]
+        },
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [{
+            "ServerSideEncryptionByDefault": { "SSEAlgorithm": "AES256" }
+          }]
+        },
+        "VersioningConfiguration": { "Status": "Enabled" },
+        "LifecycleConfiguration": {
+          "Rules": [{
+            "Id": "RetainRecentRollbackVersions",
+            "Status": "Enabled",
+            "NoncurrentVersionExpiration": { "NoncurrentDays": 30 },
+            "AbortIncompleteMultipartUpload": { "DaysAfterInitiation": 7 }
+          }]
+        }
+      }
+    },
+    "OriginAccessControl": {
+      "Type": "AWS::CloudFront::OriginAccessControl",
+      "Properties": {
+        "OriginAccessControlConfig": {
+          "Name": { "Fn::Sub": "${AWS::StackName}-s3" },
+          "Description": "Only the blobnoise CloudFront distribution reads studio assets.",
+          "OriginAccessControlOriginType": "s3",
+          "SigningBehavior": "always",
+          "SigningProtocol": "sigv4"
+        }
+      }
+    },
+    "StudioCachePolicy": {
+      "Type": "AWS::CloudFront::CachePolicy",
+      "Properties": {
+        "CachePolicyConfig": {
+          "Name": { "Fn::Sub": "${AWS::StackName}-cache" },
+          "Comment": "Honor no-cache HTML and immutable hashed assets.",
+          "DefaultTTL": 300,
+          "MaxTTL": 31536000,
+          "MinTTL": 0,
+          "ParametersInCacheKeyAndForwardedToOrigin": {
+            "EnableAcceptEncodingBrotli": true,
+            "EnableAcceptEncodingGzip": true,
+            "CookiesConfig": { "CookieBehavior": "none" },
+            "HeadersConfig": { "HeaderBehavior": "none" },
+            "QueryStringsConfig": { "QueryStringBehavior": "none" }
+          }
+        }
+      }
+    },
+    "StudioResponseHeaders": {
+      "Type": "AWS::CloudFront::ResponseHeadersPolicy",
+      "Properties": {
+        "ResponseHeadersPolicyConfig": {
+          "Name": { "Fn::Sub": "${AWS::StackName}-headers" },
+          "Comment": "Secure static delivery while permitting local canvas/media downloads.",
+          "SecurityHeadersConfig": {
+            "ContentSecurityPolicy": {
+              "ContentSecurityPolicy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; worker-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'",
+              "Override": true
+            },
+            "ContentTypeOptions": { "Override": true },
+            "FrameOptions": { "FrameOption": "DENY", "Override": true },
+            "ReferrerPolicy": { "ReferrerPolicy": "no-referrer", "Override": true },
+            "StrictTransportSecurity": {
+              "AccessControlMaxAgeSec": 31536000,
+              "IncludeSubdomains": false,
+              "Preload": false,
+              "Override": true
+            }
+          },
+          "CustomHeadersConfig": {
+            "Items": [{
+              "Header": "Permissions-Policy",
+              "Value": "camera=(), microphone=(), geolocation=()",
+              "Override": true
+            }]
+          }
+        }
+      }
+    },
+    "StudioDistribution": {
+      "Type": "AWS::CloudFront::Distribution",
+      "Properties": {
+        "DistributionConfig": {
+          "Comment": "blobnoise public studio",
+          "Enabled": true,
+          "DefaultRootObject": "index.html",
+          "HttpVersion": "http2and3",
+          "IPV6Enabled": true,
+          "PriceClass": "PriceClass_100",
+          "ViewerCertificate": { "CloudFrontDefaultCertificate": true },
+          "Origins": [{
+            "Id": "studio-s3",
+            "DomainName": { "Fn::GetAtt": ["StudioBucket", "RegionalDomainName"] },
+            "OriginAccessControlId": { "Fn::GetAtt": ["OriginAccessControl", "Id"] },
+            "S3OriginConfig": { "OriginAccessIdentity": "" }
+          }],
+          "DefaultCacheBehavior": {
+            "TargetOriginId": "studio-s3",
+            "ViewerProtocolPolicy": "redirect-to-https",
+            "AllowedMethods": ["GET", "HEAD"],
+            "CachedMethods": ["GET", "HEAD"],
+            "Compress": true,
+            "CachePolicyId": { "Ref": "StudioCachePolicy" },
+            "ResponseHeadersPolicyId": { "Ref": "StudioResponseHeaders" }
+          }
+        }
+      }
+    },
+    "StudioBucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": { "Ref": "StudioBucket" },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [{
+            "Sid": "CloudFrontReadOnly",
+            "Effect": "Allow",
+            "Principal": { "Service": "cloudfront.amazonaws.com" },
+            "Action": "s3:GetObject",
+            "Resource": { "Fn::Sub": "${StudioBucket.Arn}/*" },
+            "Condition": {
+              "StringEquals": {
+                "AWS:SourceArn": {
+                  "Fn::Sub": "arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${StudioDistribution}"
+                }
+              }
+            }
+          }, {
+            "Sid": "DenyUnencryptedTransport",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": [
+              { "Fn::GetAtt": ["StudioBucket", "Arn"] },
+              { "Fn::Sub": "${StudioBucket.Arn}/*" }
+            ],
+            "Condition": { "Bool": { "aws:SecureTransport": "false" } }
+          }]
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "BucketName": { "Value": { "Ref": "StudioBucket" } },
+    "DistributionId": { "Value": { "Ref": "StudioDistribution" } },
+    "DomainName": { "Value": { "Fn::GetAtt": ["StudioDistribution", "DomainName"] } },
+    "StudioUrl": {
+      "Value": { "Fn::Sub": "https://${StudioDistribution.DomainName}" }
+    }
+  }
+}

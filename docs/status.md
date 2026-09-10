@@ -1,7 +1,13 @@
 # Implementation status
 
-Updated: 2026-09-10. This is a local implementation record, not a claim of
-public availability or universal browser support.
+Updated: 2026-09-10. The source and studio are now public; browser support
+and physical-device performance remain subject to the limits below.
+
+- Source: [zipilot/blobnoise](https://github.com/zipilot/blobnoise).
+- Studio: [public CloudFront website](https://d16acm1lzz4dn2.cloudfront.net/).
+- Hosting: `blobnoise-studio` CloudFormation stack and S3 origin in us-east-2;
+  CloudFront delivery is global.
+- npm: not published.
 
 ## Package
 
@@ -37,6 +43,8 @@ production builds.
 | Studio integration | 11 passing Chromium tests, including unchanged draft loop timing, actual downloads and mobile layout |
 | Full local checkpoint | `npm run check` passed: typecheck, 84 unit tests, package/studio builds and all 21 browser tests |
 | Production studio | Built static assets loaded without runtime errors; actual WebP download worked; desktop/mobile layouts inspected |
+| Public CloudFront release | HTTPS studio rendered and downloaded WebP plus a decodable 128 x 128, one-second WebM; no runtime errors; HTTP redirected to HTTPS |
+| Origin access | S3 origin confirmed in us-east-2 with all public-access blocks enabled; direct unauthenticated object access returned 403 |
 | 4K WebP | Actual 4096 x 4096 transparent image, 2,001,822 bytes |
 | 1080p WebM | Actual 1920 x 1080 VP9 export, 30 frames at 30 FPS, 593,011 bytes |
 | Visual inspection | Original cloudy sphere and Mist texture rendered and inspected; not an owner approval or an ElevenLabs equivalence claim |
@@ -65,22 +73,27 @@ output is retained in memory. Cancellation during finalization waits for
 encoder cleanup. No worker/offscreen renderer, server renderer, HTTP service,
 AI image service, cloud save or telemetry is implemented.
 
-## Release boundary
+## Release status
 
-Local source is maintained in its own Git repository. A distributable
+Source is committed and pushed to its own public GitHub repository. A distributable
 `blobnoise-0.1.0.tgz` archive and `apps/studio/dist` are generated artifacts,
 not tracked source or evidence of external publication.
 
-The intended repository is `zipilot/blobnoise`; the npm name `blobnoise`
+The repository is `zipilot/blobnoise`; the npm name `blobnoise`
 returned registry 404 on 2026-09-10 and is not reserved by this lookup.
 MIT was selected as the implementation default for original project code.
 Mediabunny 1.56.1 is MPL-2.0, not MIT; its source availability and notices are
 documented in the project NOTICE and generated third-party license output.
 
-No public repository creation, npm publication, hosting deployment or domain
-configuration was performed. Before release, confirm organization/package
-publishing rights, name availability, license/notice distribution and the
-intended hosting destination. Public release remains a separate action.
+The owner authorized public GitHub/AWS delivery on 2026-09-10. The static
+studio is deployed behind CloudFront with a private, encrypted, versioned
+S3 origin, HTTPS redirection and scoped read-only origin access. The
+repository CI completed successfully after the initial push.
+
+No npm publication or custom domain was configured. See
+[hosting](hosting.md) for deployment, cost and teardown details. Physical
+device testing and broader browser evidence remain release-quality follow-ups,
+not established guarantees.
 
 TypeScript is pinned to 5.9.3 because the selected tsup declaration worker did
 not support TypeScript 7. The build-only esbuild override selects 0.28.2 to
