@@ -24,6 +24,11 @@ asset services.
 The public host serves the application files; generation and exports run on
 your own device.
 
+Use **Randomize colors** in the Palette panel to change only the colors.
+The seed, shape, motion and color-stop positions stay unchanged. Palette
+locking and undo/redo apply; **Shuffle variation** remains the broader
+palette-and-shape randomizer.
+
 ```sh
 npm run typecheck
 npm test

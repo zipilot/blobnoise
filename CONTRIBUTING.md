@@ -8,6 +8,11 @@ Keep the core free of browser/React imports. The website must use public
 package entry points rather than duplicate shader, timeline or export logic.
 Load media encoding only through the export path.
 
+Keep studio copy functional: control labels, state, constraints and necessary
+instructions. Do not add slogans, decorative counters, redundant badges or
+version labels to the interface. Color-only randomization must preserve
+palette positions and every non-color setting, with undo/redo and lock support.
+
 Preserve seeds, algorithm version and explicit-time behavior. Intentional
 algorithm changes require a new algorithm identifier and compatibility
 decision, not silently different saved presets. Add coverage for new

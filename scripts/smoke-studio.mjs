@@ -29,6 +29,17 @@ try {
   assert.equal(response?.status(), 200);
   await expect(page.getByRole("button", { name: "Play animation", exact: true })).toBeEnabled();
   await expect(page.getByRole("heading", { name: "blobnoise." })).toBeVisible();
+  await expect(page.locator("body")).not.toContainText("Made of math. Shaped by you.");
+  await expect(page.locator("body")).not.toContainText("A playground for the in-between");
+  await expect(page.locator("body")).not.toContainText("EXPERIMENT 001");
+  await expect(page.getByText("Saved locally", { exact: true })).toBeAttached();
+  const before = await page.evaluate(() => JSON.parse(localStorage.getItem("blobnoise.studio.config.v1")));
+  await page.getByRole("button", { name: "Randomize colors", exact: true }).click();
+  await expect(page.getByText("Saved locally", { exact: true })).toBeAttached();
+  const after = await page.evaluate(() => JSON.parse(localStorage.getItem("blobnoise.studio.config.v1")));
+  assert.notDeepEqual(after.material.palette, before.material.palette);
+  assert.deepEqual(after.material.palette.map(stop => stop.position), before.material.palette.map(stop => stop.position));
+  assert.deepEqual({ ...after, material: { ...after.material, palette: before.material.palette } }, before);
   const duration = page.getByRole("spinbutton", { name: "Loop duration", exact: true });
   await duration.fill("1");
   await duration.press("Tab");
@@ -44,7 +55,7 @@ try {
   assert.equal(still.subarray(8, 12).toString(), "WEBP");
 
   await page.getByRole("button", { name: "Export", exact: true }).click();
-  await page.getByRole("button", { name: /^WebM Keep/ }).click();
+  await page.getByRole("button", { name: "WebM video", exact: true }).click();
   await expect(page.getByRole("spinbutton", { name: "Duration (seconds)" })).toHaveValue("1");
   await page.getByRole("spinbutton", { name: "Width", exact: true }).fill("128");
   await page.getByRole("spinbutton", { name: "Height", exact: true }).fill("128");

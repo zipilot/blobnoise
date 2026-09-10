@@ -90,16 +90,15 @@ export function ExportDialog({ config, time, onClose, notify }: {
   const percent = progress.totalFrames ? Math.round(progress.completedFrames / progress.totalFrames * 100) : 0;
 
   return (
-    <Modal title="A little atmosphere, anywhere." eyebrow="Export your creation" onClose={onClose}>
-      <p className="modal-description">Rendered here in your browser. No uploads, no account, just your texture.</p>
+    <Modal title="Export" onClose={onClose}>
       <fieldset disabled={working} className="export-settings">
         <legend className="sr-only">Export settings</legend>
         <div className="format-options" role="group" aria-label="Export format">
-          <button type="button" aria-pressed={format === "webp"} onClick={() => { setFormat("webp"); setError(""); }}>
-            <strong>WebP</strong><span>One perfect frame</span><small>Transparency supported</small>
+          <button type="button" aria-label="WebP image" aria-pressed={format === "webp"} onClick={() => { setFormat("webp"); setError(""); }}>
+            <strong>WebP</strong><span>Still image</span><small>Transparency supported</small>
           </button>
-          <button type="button" aria-pressed={format === "webm"} onClick={() => { setFormat("webm"); setError(""); }}>
-            <strong>WebM</strong><span>Keep it moving</span><small>Solid background · up to 20s</small>
+          <button type="button" aria-label="WebM video" aria-pressed={format === "webm"} onClick={() => { setFormat("webm"); setError(""); }}>
+            <strong>WebM</strong><span>Video</span><small>Solid background · up to 20s</small>
           </button>
         </div>
         <div className="export-dimensions">

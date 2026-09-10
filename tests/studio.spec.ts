@@ -28,6 +28,50 @@ test.beforeEach(async ({ page }) => {
   await expect(page.getByRole("heading", { name: "blobnoise." })).toBeVisible();
 });
 
+test("decorative copy is absent and dialogs use functional labels", async ({ page }) => {
+  const removed = [
+    "A playground for the in-between", "A little noise. A lot of possibility.",
+    "EXPERIMENT 001", "Made of math. Shaped by you.", "Deterministic by design", "v0.1",
+    "Fine-tune the feeling", "Make some noise", "From shadow to light", "Find your formation",
+    "100% PROCEDURAL", "PERLIN V1", "A place to start", "Make it your own.",
+  ];
+  for (const text of removed) await expect(page.locator("body")).not.toContainText(text);
+  await expect(page.getByRole("heading", { name: "Settings", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Presets", exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Get code", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Code and configuration" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Package setup" })).toHaveAttribute("href", "https://github.com/zipilot/blobnoise#embed");
+  await expect(page.getByRole("dialog")).not.toContainText("npm install blobnoise");
+  await page.getByRole("button", { name: "Close dialog" }).click();
+  await page.getByRole("button", { name: "Export", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Export", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "WebP image", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "WebM video", exact: true })).toBeVisible();
+});
+
+test("color-only randomization preserves stops and every other setting with undo and lock support", async ({ page }) => {
+  await page.getByRole("button", { name: "Add color stop" }).click();
+  const before = await savedConfig(page);
+  const randomize = page.getByRole("button", { name: "Randomize colors", exact: true });
+  await randomize.click();
+  const after = await savedConfig(page);
+  expect(after.material.palette.map(stop => stop.color)).not.toEqual(before.material.palette.map(stop => stop.color));
+  expect(after.material.palette.map(stop => stop.position)).toEqual(before.material.palette.map(stop => stop.position));
+  expect({ ...after, material: { ...after.material, palette: before.material.palette } }).toEqual(before);
+  await page.getByRole("button", { name: "Undo", exact: true }).click();
+  expect(await savedConfig(page)).toEqual(before);
+  await page.getByRole("button", { name: "Redo", exact: true }).click();
+  expect(await savedConfig(page)).toEqual(after);
+  await page.getByRole("button", { name: "Palette lock", exact: true }).click();
+  await expect(randomize).toBeDisabled();
+  await page.getByRole("button", { name: "Shape lock", exact: true }).click();
+  await page.getByRole("button", { name: "Palette lock", exact: true }).click();
+  await expect(randomize).toBeEnabled();
+  await randomize.click();
+  const lockedShape = await savedConfig(page);
+  expect({ ...lockedShape, material: { ...lockedShape.material, palette: after.material.palette } }).toEqual(after);
+});
+
 test("preview, presets, matching motion modes, playback and scrub", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
@@ -234,7 +278,7 @@ test("still export offers transparency and video validates dimensions, FPS and d
   expect(await savedConfig(page)).toEqual(original);
 
   await page.getByRole("button", { name: "Export", exact: true }).click();
-  await page.getByRole("button", { name: /^WebM Keep/ }).click();
+  await page.getByRole("button", { name: "WebM video", exact: true }).click();
   await expect(page.getByRole("spinbutton", { name: "Duration (seconds)" })).toHaveJSProperty("readOnly", true);
   await expect(page.getByRole("spinbutton", { name: "Duration (seconds)" })).toHaveValue("8");
   await expect(page.getByText("Duration matches your draft exactly.", { exact: false })).toBeVisible();
@@ -243,7 +287,7 @@ test("still export offers transparency and video validates dimensions, FPS and d
   await page.getByRole("button", { name: "Free", exact: true }).click();
   const freeConfig = await savedConfig(page);
   await page.getByRole("button", { name: "Export", exact: true }).click();
-  await page.getByRole("button", { name: /^WebM Keep/ }).click();
+  await page.getByRole("button", { name: "WebM video", exact: true }).click();
   await expect(page.getByRole("spinbutton", { name: "Duration (seconds)" })).toBeEditable();
   await expect(page.getByRole("textbox", { name: "Export background", exact: true })).toBeVisible();
   await page.getByRole("combobox", { name: "Frame rate" }).selectOption("24");
@@ -263,7 +307,7 @@ test("video export progress can be canceled without changing the draft", async (
   await page.getByRole("button", { name: "Free", exact: true }).click();
   const original = await savedConfig(page);
   await page.getByRole("button", { name: "Export", exact: true }).click();
-  await page.getByRole("button", { name: /^WebM Keep/ }).click();
+  await page.getByRole("button", { name: "WebM video", exact: true }).click();
   await page.getByRole("button", { name: "512 square" }).click();
   await page.getByRole("spinbutton", { name: "Duration (seconds)" }).fill("20");
   await expect(page.getByRole("dialog").getByRole("status")).not.toContainText("Checking", { timeout: 30_000 });
@@ -285,7 +329,7 @@ test("video downloads with the chosen background and the exact draft loop durati
   await setNumber(page, "Loop duration", "1");
   const original = await savedConfig(page);
   await page.getByRole("button", { name: "Export", exact: true }).click();
-  await page.getByRole("button", { name: /^WebM Keep/ }).click();
+  await page.getByRole("button", { name: "WebM video", exact: true }).click();
   await page.getByRole("spinbutton", { name: "Width", exact: true }).fill("64");
   await page.getByRole("spinbutton", { name: "Height", exact: true }).fill("64");
   await page.getByRole("combobox", { name: "Frame rate" }).selectOption("24");
@@ -320,7 +364,7 @@ test("mobile layout is contained and controls remain keyboard reachable", async 
   await expect(page.getByRole("link", { name: "Controls", exact: true })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.getByRole("link", { name: "Controls", exact: true }).click();
-  await expect(page.getByRole("heading", { name: "Make some noise." })).toBeInViewport();
+  await expect(page.getByRole("heading", { name: "Settings", exact: true })).toBeInViewport();
   await setNumber(page, "Scale", "3.5");
   expect((await savedConfig(page)).material.noise.scale).toBe(3.5);
   await expect(page.getByRole("button", { name: "Play animation" })).toBeAttached();

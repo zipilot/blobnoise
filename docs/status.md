@@ -34,7 +34,13 @@ clone. Only free-mode export has independent clip duration. The studio uses
 the same public package API and generates `THIRD-PARTY-LICENSES.md` with
 production builds.
 
-## Evidence recorded on this host
+The 2026-09-10 interface refinement removes decorative slogans, counters and
+version badges. A dedicated **Randomize colors** action preserves seed,
+shape, motion, color-stop count/positions and other settings, and participates
+in palette locking and undo/redo. The code dialog links to actual source
+installation instructions rather than an unpublished npm command.
+
+## Initial implementation evidence recorded on this host
 
 | Area | Observation |
 |---|---|

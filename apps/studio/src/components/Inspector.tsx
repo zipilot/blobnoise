@@ -1,5 +1,6 @@
 import { type BlobConfig, type ColorStop } from "blobnoise";
 import { ColorField, LockButton, NumberField, Section, Toggle } from "./Controls";
+import { Icon } from "./Icon";
 
 type Edit = (change: (draft: BlobConfig) => void) => void;
 const axes = ["X", "Y", "Z"] as const;
@@ -42,9 +43,10 @@ function addStop(stops: ColorStop[]) {
   stops.splice(index + 1, 0, { position: (left.position + right.position) / 2, color: midpointColor(left.color, right.color) });
 }
 
-export function Inspector({ config, edit, paletteLocked, shapeLocked, togglePaletteLock, toggleShapeLock }: {
+export function Inspector({ config, edit, paletteLocked, shapeLocked, togglePaletteLock, toggleShapeLock, randomizeColors }: {
   config: BlobConfig; edit: Edit; paletteLocked: boolean; shapeLocked: boolean;
   togglePaletteLock: () => void; toggleShapeLock: () => void;
+  randomizeColors: () => void;
 }) {
   const { material, surface, motion } = config;
   const noiseField = (key: keyof typeof material.noise, label: string, min: number, max: number, step = 0.01) =>
@@ -54,7 +56,13 @@ export function Inspector({ config, edit, paletteLocked, shapeLocked, togglePale
   return (
     <>
       <Section title="Palette" trailing={<span className="section-count">{material.palette.length} colors</span>}>
-        <div className="section-subheading"><span>From shadow to light</span><LockButton name="Palette" locked={paletteLocked} onChange={togglePaletteLock} /></div>
+        <div className="section-subheading">
+          <button type="button" className="shuffle-button" onClick={randomizeColors} disabled={paletteLocked}
+            title={paletteLocked ? "Unlock the palette to randomize colors" : "Change colors only; keep the texture settings and color-stop positions"}>
+            <Icon name="shuffle" size={13} />Randomize colors
+          </button>
+          <LockButton name="Palette" locked={paletteLocked} onChange={togglePaletteLock} />
+        </div>
         <div className="palette-ribbon" role="img" aria-label="Current color gradient"
           style={{ background: `linear-gradient(90deg, ${material.palette.map(stop => `${stop.color} ${stop.position * 100}%`).join(", ")})` }} />
         <div className="stop-heading"><span>Color</span><span>Position</span></div>
@@ -78,7 +86,7 @@ export function Inspector({ config, edit, paletteLocked, shapeLocked, togglePale
       </Section>
 
       <Section title="Shape">
-        <div className="section-subheading"><span>Find your formation</span><LockButton name="Shape" locked={shapeLocked} onChange={toggleShapeLock} /></div>
+        <div className="section-subheading"><LockButton name="Shape" locked={shapeLocked} onChange={toggleShapeLock} /></div>
         {noiseField("scale", "Scale", 0.1, 10)}
         {noiseField("octaves", "Octaves", 1, 6, 1)}
         {noiseField("warp", "Warp", 0, 2)}
@@ -148,7 +156,7 @@ export function Inspector({ config, edit, paletteLocked, shapeLocked, togglePale
           onChange={value => edit(draft => { if (draft.motion.mode === "free") draft.motion.speed = value; })} />}
         <NumberField label="Evolution amount" value={motion.evolution.amount} min={0} max={2}
           onChange={value => edit(draft => { draft.motion.evolution.amount = value; })} />
-        <p className="helper">{motion.mode === "loop" ? "A complete cycle, designed to meet where it began." : "Independent motion, not locked to a shared loop."}</p>
+        {motion.mode === "free" && <p className="helper">Rotation and evolution run independently; exported clips may not loop.</p>}
       </Section>
 
       <Section title="Canvas" defaultOpen={false}>

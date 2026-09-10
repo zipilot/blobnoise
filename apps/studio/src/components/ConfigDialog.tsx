@@ -46,11 +46,10 @@ export function ConfigDialog({ mode, config, onImport, onClose, notify }: {
     } catch (reason) { setError(errorMessage(reason)); }
   };
   return (
-    <Modal title={mode === "code" ? "Make it part of your project." : "Pick up where you left off."}
-      eyebrow={mode === "code" ? "Use your texture" : "Import configuration"} onClose={onClose} wide>
+    <Modal title={mode === "code" ? "Code and configuration" : "Import configuration"} onClose={onClose} wide>
       {mode === "code" ? <>
-        <p className="modal-description">Install <code>blobnoise</code>, then use this complete JavaScript snippet. The same seed, settings, and timing travel with it.</p>
-        <div className="code-caption"><span>JavaScript · browser</span><span>npm install blobnoise</span></div>
+        <p className="modal-description">Build and install <code>blobnoise</code> from the GitHub source to use this snippet. The package is not published to npm yet.</p>
+        <div className="code-caption"><span>JavaScript · browser</span><a href="https://github.com/zipilot/blobnoise#embed" target="_blank" rel="noreferrer">Package setup</a></div>
         <textarea className="code-area" aria-label="JavaScript snippet" readOnly value={snippet} spellCheck={false} />
         {error && <p className="error-message" role="alert">{error}</p>}
         <div className="modal-actions">

@@ -8,9 +8,18 @@ import { Icon } from "./components/Icon";
 import { Inspector, changeSurface } from "./components/Inspector";
 import { NumberField } from "./components/Controls";
 
-function randomPalette(random: () => number): BlobConfig["material"]["palette"] {
+function createRandom(seed: number) {
+  let state = seed;
+  return () => {
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+    return state / 0x100000000;
+  };
+}
+
+function randomPalette(random: () => number, positions = [0, 1 / 3, 2 / 3, 1]): BlobConfig["material"]["palette"] {
   const hue = random() * 360;
-  return [0.14, 0.38, 0.68, 0.86].map((lightness, index) => {
+  return positions.map((position, index) => {
+    const lightness = 0.14 + position * 0.72;
     const h = (hue + index * (12 + random() * 18)) % 360 / 30;
     const saturation = 0.2 + random() * 0.4;
     const a = saturation * Math.min(lightness, 1 - lightness);
@@ -19,7 +28,7 @@ function randomPalette(random: () => number): BlobConfig["material"]["palette"] 
       return Math.round(255 * (lightness - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))))
         .toString(16).padStart(2, "0");
     };
-    return { position: index / 3, color: `#${channel(0)}${channel(8)}${channel(4)}` };
+    return { position, color: `#${channel(0)}${channel(8)}${channel(4)}` };
   });
 }
 
@@ -68,11 +77,7 @@ export default function App() {
   const shuffle = () => {
     try {
       const seed = randomSeed();
-      let state = seed;
-      const random = () => {
-        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
-        return state / 0x100000000;
-      };
+      const random = createRandom(seed);
       const rounded = (value: number) => Math.round(value * 100) / 100;
       edit(draft => {
         if (!shapeLocked) draft.seed = seed;
@@ -86,7 +91,17 @@ export default function App() {
         };
       });
       setActionError("");
-      notify("New variation. Palette and shape locks are respected.");
+      notify("Variation randomized.");
+    } catch (reason) { setActionError(errorMessage(reason)); }
+  };
+  const randomizeColors = () => {
+    try {
+      const random = createRandom(randomSeed());
+      edit(draft => {
+        draft.material.palette = randomPalette(random, draft.material.palette.map(stop => stop.position));
+      });
+      setActionError("");
+      notify("Colors randomized.");
     } catch (reason) { setActionError(errorMessage(reason)); }
   };
 
@@ -94,7 +109,7 @@ export default function App() {
     <div className="studio">
       <a className="skip-link" href="#inspector">Skip to texture controls</a>
       <header className="app-header">
-        <div className="brand"><span className="brand-symbol" aria-hidden="true"><i /><i /><i /></span><h1>blobnoise<span className="brand-dot">.</span></h1><span className="studio-tag">STUDIO</span></div>
+        <div className="brand"><span className="brand-symbol" aria-hidden="true"><i /><i /><i /></span><h1>blobnoise<span className="brand-dot">.</span></h1></div>
         <div className="header-actions">
           <span className={`save-state ${studio.saveStatus === "unsaved" ? "save-error" : ""}`} role="status">
             <span className="status-dot" />{studio.saveStatus === "saved" ? "Saved locally" : studio.saveStatus === "saving" ? "Saving…" : "Not saved"}
@@ -110,25 +125,19 @@ export default function App() {
 
       <main className="workspace">
         <section className="main-column" aria-label="Texture workspace">
-          <div className="workspace-heading">
-            <div><p className="eyebrow">A playground for the in-between</p><h2>A little noise. A lot of possibility.</h2></div>
-            <a className="mobile-controls" href="#inspector">Controls <Icon name="chevron" /></a>
-            <span className="workspace-counter">EXPERIMENT 001</span>
-          </div>
+          <a className="mobile-controls" href="#inspector">Controls <Icon name="chevron" /></a>
           <div className={`preview-stage ${config.background === "transparent" ? "checkerboard" : ""}`}
             style={config.background !== "transparent" ? { backgroundColor: config.background.color } : undefined}>
             <div className="preview-topbar">
-              <span className="canvas-label"><span className={`status-dot ${preview.playing ? "live-dot" : ""}`} />{preview.ready ? "LIVE CANVAS" : "INITIALIZING"}</span>
               <div className="segmented surface-switch" role="group" aria-label="Preview surface">
                 <button type="button" aria-pressed={config.surface.kind === "sphere"} onClick={() => edit(draft => changeSurface(draft, "sphere"))}><span className="surface-icon sphere-icon" aria-hidden="true" />Sphere</button>
                 <button type="button" aria-pressed={config.surface.kind === "texture"} onClick={() => edit(draft => changeSurface(draft, "texture"))}><span className="surface-icon plane-icon" aria-hidden="true" />Plane</button>
               </div>
             </div>
             <div className="canvas-wrap"><canvas ref={preview.canvasRef} aria-label={`Procedural ${config.surface.kind === "sphere" ? "sphere" : "plane"} preview`} data-testid="preview-canvas" /></div>
-            {!preview.ready && !preview.error && <p className="preview-loading">Finding a little atmosphere…</p>}
-            {preview.error && <div className="preview-error" role="alert"><strong>The preview needs a moment.</strong><p>{preview.error}</p><p>Try a browser with WebGL 2 enabled. Your settings and config export are still available.</p><button type="button" className="button secondary" onClick={preview.retry}>Retry preview</button></div>}
+            {!preview.ready && !preview.error && <p className="preview-loading">Loading preview…</p>}
+            {preview.error && <div className="preview-error" role="alert"><strong>Preview unavailable</strong><p>{preview.error}</p><p>Requires WebGL 2. Your settings and config export are still available.</p><button type="button" className="button secondary" onClick={preview.retry}>Retry preview</button></div>}
             <span className="corner corner-tl" aria-hidden="true" /><span className="corner corner-tr" aria-hidden="true" /><span className="corner corner-bl" aria-hidden="true" /><span className="corner corner-br" aria-hidden="true" />
-            <div className="canvas-meta"><span>{currentPreset.toUpperCase()} <span className="meta-divider">/</span> PERLIN V1</span><span>100% PROCEDURAL</span></div>
           </div>
           <div className="playback-bar">
             <button type="button" className="play-button" aria-label={preview.playing ? "Pause animation" : "Play animation"}
@@ -143,26 +152,25 @@ export default function App() {
             </div>
             <span className="loop-symbol" title={config.motion.mode === "loop" ? "Looping timeline" : "Scrub the first 20 seconds"} aria-hidden="true">{config.motion.mode === "loop" ? "∞" : "↗"}</span>
           </div>
-          <div className="presets-heading"><div><h3>A place to start</h3><span>Make it your own.</span></div><button type="button" className="shuffle-button"
+          <div className="presets-heading"><h3>Presets</h3><button type="button" className="shuffle-button"
             disabled={paletteLocked && shapeLocked} title={paletteLocked && shapeLocked ? "Unlock palette or shape to create a variation." : "Randomize the unlocked palette and formation"}
             onClick={shuffle}><Icon name="shuffle" />Shuffle variation</button></div>
           <div className="preset-grid" role="group" aria-label="Texture presets">
-            {presetNames.map((name, index) => <button type="button" className={`preset-card ${currentPreset === name ? "selected" : ""}`}
+            {presetNames.map(name => <button type="button" className={`preset-card ${currentPreset === name ? "selected" : ""}`}
               key={name} aria-pressed={currentPreset === name} aria-label={`${name} preset`} onClick={() => {
                 studio.commit(getPreset(name));
                 preview.seek(0);
                 notify(`${name} preset loaded. Undo to return to your previous settings.`);
               }}>
               <span className={`preset-art preset-art-${name.toLowerCase()}`} aria-hidden="true"><i /></span>
-              <span className="preset-description"><strong>{name}</strong><span>{["Soft & luminous", "Quiet & weightless", "Deep & otherworldly"][index]}</span></span>
-              <span className="preset-number" aria-hidden="true">{currentPreset === name ? <Icon name="check" size={13} /> : `0${index + 1}`}</span>
+              <span className="preset-description"><strong>{name}</strong></span>
+              {currentPreset === name && <span className="preset-number" aria-hidden="true"><Icon name="check" size={13} /></span>}
             </button>)}
           </div>
-          <div className="workspace-footnote"><span>Made of math. Shaped by you.</span><span>No uploads. All in your browser.</span></div>
         </section>
 
         <aside className="inspector" id="inspector" aria-label="Texture inspector" tabIndex={-1}>
-          <div className="inspector-heading"><div><p className="eyebrow">Fine-tune the feeling</p><h2>Make some noise<span>.</span></h2></div>
+          <div className="inspector-heading"><h2>Settings</h2>
             <div className="history-actions">
               <button type="button" className="icon-button" aria-label="Undo" title="Undo (Ctrl/⌘ Z)" disabled={!studio.canUndo} onClick={studio.undo}><Icon name="undo" /></button>
               <button type="button" className="icon-button" aria-label="Redo" title="Redo (Ctrl/⌘ Shift Z)" disabled={!studio.canRedo} onClick={studio.redo}><Icon name="redo" /></button>
@@ -177,8 +185,8 @@ export default function App() {
             }}><Icon name="shuffle" size={15} /></button>
           </div>
           <Inspector config={config} edit={edit} paletteLocked={paletteLocked} shapeLocked={shapeLocked}
-            togglePaletteLock={() => setPaletteLocked(value => !value)} toggleShapeLock={() => setShapeLocked(value => !value)} />
-          <div className="inspector-footer"><span className="status-dot" />Deterministic by design<span>v0.1</span></div>
+            togglePaletteLock={() => setPaletteLocked(value => !value)} toggleShapeLock={() => setShapeLocked(value => !value)}
+            randomizeColors={randomizeColors} />
         </aside>
       </main>
       <div className={`toast ${notice ? "visible" : ""}`} role="status">{notice && <><Icon name="check" />{notice}</>}</div>
