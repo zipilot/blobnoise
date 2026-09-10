@@ -4,7 +4,7 @@ Package: `@zipilot/blobnoise`
 
 Registry: `https://npm.pkg.github.com`
 
-Initial version: `0.1.0`
+Published version: `0.1.0` (2026-09-10)
 
 This is an npm-format package on GitHub Packages, not a publication to
 npmjs.org. The GitHub registry requires a scope, so earlier local examples
@@ -77,8 +77,14 @@ gh workflow run publish-package.yml --repo zipilot/blobnoise --ref main
 The version in `packages/blobnoise/package.json` is authoritative. Do not
 rerun a successful publication for an existing version: versions are immutable.
 Do not delete and republish an existing version to hide a release problem.
-If only the post-publication consumer check fails, fix that check and run it
-with an authorized token without attempting to publish the version again.
+To recheck an existing release without attempting another publication:
+
+```sh
+gh workflow run publish-package.yml --repo zipilot/blobnoise --ref main -f verify_only=true
+```
+
+The verification-only mode also reports actual package visibility. It does
+not delete, overwrite or republish a version.
 
 The `repository` field connects the package to `zipilot/blobnoise`.
 `publishConfig.registry` prevents accidentally targeting npmjs.org.
@@ -86,6 +92,11 @@ The `repository` field connects the package to `zipilot/blobnoise`.
 visibility/access settings must be inspected rather than inferred from that
 flag or from the public repository. Repository permission inheritance and
 package visibility are separate settings.
+
+The [initial release workflow](https://github.com/zipilot/blobnoise/actions/runs/34540877755)
+published version 0.1.0 and installed that exact registry package in a clean
+consumer. All four entry imports, JSON/snippet behavior and shipped TypeScript
+declarations were exercised successfully.
 
 Sources, read 2026-09-10:
 [npm registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry)

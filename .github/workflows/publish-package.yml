@@ -2,6 +2,11 @@ name: Publish npm package
 
 on:
   workflow_dispatch:
+    inputs:
+      verify_only:
+        description: Verify an existing version without publishing it again
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -31,6 +36,7 @@ jobs:
       - run: npm test
       - run: npm run build:package
       - name: Publish the version from package.json
+        if: ${{ !inputs.verify_only }}
         run: npm publish --workspace @zipilot/blobnoise
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -38,3 +44,7 @@ jobs:
         run: node scripts/verify-published.mjs
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Report package identity and visibility
+        run: gh api orgs/zipilot/packages/npm/blobnoise --jq '{name,visibility,html_url,repository:.repository.full_name}'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

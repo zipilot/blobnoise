@@ -7,8 +7,8 @@ and physical-device performance remain subject to the limits below.
 - Studio: [public CloudFront website](https://d16acm1lzz4dn2.cloudfront.net/).
 - Hosting: `blobnoise-studio` CloudFormation stack and S3 origin in us-east-2;
   CloudFront delivery is global.
-- npm-format package: `@zipilot/blobnoise`, targeting GitHub Packages.
-  Publication verification is in progress; no npmjs.org release is planned.
+- npm-format package: `@zipilot/blobnoise@0.1.0`, published to GitHub Packages.
+  No npmjs.org release was made.
 
 ## Package
 
@@ -81,6 +81,17 @@ encoder cleanup. No worker/offscreen renderer, server renderer, HTTP service,
 AI image service, cloud save or telemetry is implemented.
 
 ## Release status
+
+GitHub Packages publication succeeded on 2026-09-10 through the repository's
+Actions token. The release workflow installed version 0.1.0 from the actual
+registry in a clean temporary project, imported all four entry points,
+exercised the configuration/snippet contract and typechecked a consuming
+project against the shipped declarations. This was not a workspace symlink
+or local tarball installation.
+
+Release run:
+<https://github.com/zipilot/blobnoise/actions/runs/34540877755>.
+Registry authentication is required; see [package distribution](packages.md).
 
 Source is committed and pushed to its own public GitHub repository. A distributable
 package archive and `apps/studio/dist` are generated artifacts,
