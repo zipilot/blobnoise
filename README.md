@@ -44,6 +44,11 @@ harness is development-only and is not a production build entry point.
 
 ## Install the package
 
+Published package:
+[`@zipilot/blobnoise@0.1.0`](https://github.com/orgs/zipilot/packages/npm/package/blobnoise).
+GitHub currently marks it **private**, so the installing account or workflow
+must have package access. The source repository and studio remain public.
+
 Configure GitHub's registry for the `@zipilot` scope, authenticate, then install:
 
 ```sh
@@ -59,7 +64,8 @@ token in source code or commit it; the project's `.npmrc` only needs the
 non-secret scope-to-registry mapping.
 
 See [package distribution](docs/packages.md) for GitHub Actions installation,
-permissions and publishing. The package is not published to npmjs.org.
+permissions, changing package visibility and publishing. The package is not
+published to npmjs.org.
 
 ## Embed
 

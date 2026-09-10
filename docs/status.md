@@ -8,7 +8,8 @@ and physical-device performance remain subject to the limits below.
 - Hosting: `blobnoise-studio` CloudFormation stack and S3 origin in us-east-2;
   CloudFront delivery is global.
 - npm-format package: `@zipilot/blobnoise@0.1.0`, published to GitHub Packages.
-  No npmjs.org release was made.
+  GitHub package visibility is currently private; installation requires an
+  identity with package access. No npmjs.org release was made.
 
 ## Package
 
@@ -92,6 +93,10 @@ or local tarball installation.
 Release run:
 <https://github.com/zipilot/blobnoise/actions/runs/34540877755>.
 Registry authentication is required; see [package distribution](packages.md).
+The verification-only run confirmed actual package visibility is private
+despite requesting public access at publication. Source/studio visibility is
+unchanged. A package administrator can change visibility in GitHub's package
+settings; that setting was not claimed to be public.
 
 Source is committed and pushed to its own public GitHub repository. A distributable
 package archive and `apps/studio/dist` are generated artifacts,

@@ -6,6 +6,21 @@ Registry: `https://npm.pkg.github.com`
 
 Published version: `0.1.0` (2026-09-10)
 
+Package page:
+<https://github.com/orgs/zipilot/packages/npm/package/blobnoise>
+
+**Current registry visibility: private**, confirmed through the package API
+using the repository's authorized Actions token. The repository itself is
+public. Publishing with `access: public` did not change GitHub's default
+package visibility.
+
+To enable public package visibility, an organization/package administrator
+must open the package page, choose **Package settings**, and change visibility
+to **Public**. GitHub documents this as a web-settings action; no browser
+session or broader personal credentials were provisioned by this project.
+Authenticated installation already works for identities with package access.
+Even after making it public, GitHub's npm registry still requires authentication.
+
 This is an npm-format package on GitHub Packages, not a publication to
 npmjs.org. The GitHub registry requires a scope, so earlier local examples
 using `blobnoise/browser` must use `@zipilot/blobnoise/browser` instead.
@@ -97,6 +112,10 @@ The [initial release workflow](https://github.com/zipilot/blobnoise/actions/runs
 published version 0.1.0 and installed that exact registry package in a clean
 consumer. All four entry imports, JSON/snippet behavior and shipped TypeScript
 declarations were exercised successfully.
+
+A [verification-only run](https://github.com/zipilot/blobnoise/actions/runs/34541147632)
+repeated the clean installation, skipped publication and reported the package's
+actual private visibility and association with `zipilot/blobnoise`.
 
 Sources, read 2026-09-10:
 [npm registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry)

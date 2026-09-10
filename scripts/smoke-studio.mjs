@@ -29,6 +29,13 @@ try {
   assert.equal(response?.status(), 200);
   await expect(page.getByRole("button", { name: "Play animation", exact: true })).toBeEnabled();
   await expect(page.getByRole("heading", { name: "blobnoise." })).toBeVisible();
+  await page.getByRole("button", { name: "Get code", exact: true }).click();
+  const snippet = await page.getByRole("textbox", { name: "JavaScript snippet" }).inputValue();
+  assert.ok(snippet.includes('from "@zipilot/blobnoise/browser"'));
+  await expect(page.getByRole("dialog")).toContainText("GitHub Packages");
+  await expect(page.getByRole("link", { name: "Package setup" }))
+    .toHaveAttribute("href", "https://github.com/zipilot/blobnoise#install-the-package");
+  await page.getByRole("button", { name: "Close dialog" }).click();
   await expect(page.locator("body")).not.toContainText("Made of math. Shaped by you.");
   await expect(page.locator("body")).not.toContainText("A playground for the in-between");
   await expect(page.locator("body")).not.toContainText("EXPERIMENT 001");
