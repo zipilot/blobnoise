@@ -2,7 +2,7 @@
 
 **Live:** <https://d16acm1lzz4dn2.cloudfront.net/>
 
-**Source:** <https://github.com/zipilot/blobnoise>
+**Source:** <https://github.com/alejo-valencia/blobnoise>
 
 **Stack:** `blobnoise-studio` in `us-east-2`
 
@@ -66,6 +66,11 @@ HTML is revalidated, hashed assets are cached immutably, and older asset
 hashes are retained so open tabs survive a deployment. Third-party license
 text ships alongside the site. Security headers allow local canvas, Blob
 downloads and media workers without third-party scripts or framing.
+
+The site also serves an indexable HTML description, sitemap, robots file,
+favicon and original social preview image. Missing S3 objects return a real
+404 through CloudFront instead of a 200 application shell; the error document
+is marked `noindex`. See [search metadata](seo.md).
 
 This is usage-billed S3/CloudFront hosting, not a promise of free hosting.
 There is no additional EC2 instance, load balancer, NAT gateway, database,

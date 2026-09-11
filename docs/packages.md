@@ -1,29 +1,27 @@
 # GitHub Packages distribution
 
-Package: `@zipilot/blobnoise`
+Package: `@alejo-valencia/blobnoise`
 
 Registry: `https://npm.pkg.github.com`
 
-Published version: `0.1.0` (2026-09-10)
+Personal-scope release: `0.1.0` (publication verification pending).
 
-Package page:
-<https://github.com/orgs/zipilot/packages/npm/package/blobnoise>
+The repository moved to
+[alejo-valencia/blobnoise](https://github.com/alejo-valencia/blobnoise) on
+2026-09-11. GitHub's granular npm packages do not move with repositories, so
+the personal account uses a new scope. Authentication remains required.
 
-**Current registry visibility: private**, confirmed through the package API
-using the repository's authorized Actions token. The repository itself is
-public. Publishing with `access: public` did not change GitHub's default
-package visibility.
-
-To enable public package visibility, an organization/package administrator
+To enable public package visibility, a package administrator
 must open the package page, choose **Package settings**, and change visibility
 to **Public**. GitHub documents this as a web-settings action; no browser
 session or broader personal credentials were provisioned by this project.
-Authenticated installation already works for identities with package access.
+Installation requires an identity with package access.
 Even after making it public, GitHub's npm registry still requires authentication.
 
 This is an npm-format package on GitHub Packages, not a publication to
 npmjs.org. The GitHub registry requires a scope, so earlier local examples
-using `blobnoise/browser` must use `@zipilot/blobnoise/browser` instead.
+using `blobnoise/browser` or `@zipilot/blobnoise/browser` must use
+`@alejo-valencia/blobnoise/browser` for the personal-scope package.
 Configuration JSON, seeds and rendering behavior are unchanged.
 
 ## Install locally
@@ -31,14 +29,14 @@ Configuration JSON, seeds and rendering behavior are unchanged.
 Add this non-secret mapping to the consuming project's `.npmrc`:
 
 ```ini
-@zipilot:registry=https://npm.pkg.github.com
+@alejo-valencia:registry=https://npm.pkg.github.com
 ```
 
 Then authenticate and install:
 
 ```sh
-npm login --scope=@zipilot --auth-type=legacy --registry=https://npm.pkg.github.com
-npm install @zipilot/blobnoise@0.1.0
+npm login --scope=@alejo-valencia --auth-type=legacy --registry=https://npm.pkg.github.com
+npm install @alejo-valencia/blobnoise@0.1.0
 ```
 
 Use your GitHub username and a personal access token **classic** with
@@ -61,7 +59,7 @@ steps:
     with:
       node-version: 22
       registry-url: https://npm.pkg.github.com
-      scope: "@zipilot"
+      scope: "@alejo-valencia"
   - run: npm ci
     env:
       NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -86,7 +84,7 @@ version, refresh `package-lock.json`, and push a reviewed commit before
 dispatching the workflow:
 
 ```sh
-gh workflow run publish-package.yml --repo zipilot/blobnoise --ref main
+gh workflow run publish-package.yml --repo alejo-valencia/blobnoise --ref main
 ```
 
 The version in `packages/blobnoise/package.json` is authoritative. Do not
@@ -95,27 +93,39 @@ Do not delete and republish an existing version to hide a release problem.
 To recheck an existing release without attempting another publication:
 
 ```sh
-gh workflow run publish-package.yml --repo zipilot/blobnoise --ref main -f verify_only=true
+gh workflow run publish-package.yml --repo alejo-valencia/blobnoise --ref main -f verify_only=true
 ```
 
 The verification-only mode also reports actual package visibility. It does
 not delete, overwrite or republish a version.
 
-The `repository` field connects the package to `zipilot/blobnoise`.
+The `repository` field connects the package to `alejo-valencia/blobnoise`.
 `publishConfig.registry` prevents accidentally targeting npmjs.org.
 `publishConfig.access` requests public access, but GitHub's resulting package
 visibility/access settings must be inspected rather than inferred from that
 flag or from the public repository. Repository permission inheritance and
 package visibility are separate settings.
 
-The [initial release workflow](https://github.com/zipilot/blobnoise/actions/runs/34540877755)
-published version 0.1.0 and installed that exact registry package in a clean
-consumer. All four entry imports, JSON/snippet behavior and shipped TypeScript
-declarations were exercised successfully.
+## Legacy organization package
 
-A [verification-only run](https://github.com/zipilot/blobnoise/actions/runs/34541147632)
+The existing `@zipilot/blobnoise@0.1.0` release has not been deleted. GitHub
+keeps granular packages under their original owner and removes their
+repository link/access inheritance when the repository is transferred.
+Consumers of that scope may need explicit access to the old package or
+migration to the personal scope; do not assume the source URL redirect also
+redirects npm installs.
+
+The [initial release workflow](https://github.com/alejo-valencia/blobnoise/actions/runs/34540877755)
+published the legacy organization version and installed it in a clean
+consumer. All four entry imports, JSON/snippet behavior and declarations
+were exercised.
+
+A [verification-only run](https://github.com/alejo-valencia/blobnoise/actions/runs/34541147632)
 repeated the clean installation, skipped publication and reported the package's
-actual private visibility and association with `zipilot/blobnoise`.
+private visibility and association with `zipilot/blobnoise` before transfer.
+
+The original MIT copyright and third-party notices are retained. Repository
+ownership changes do not remove existing license notices.
 
 Sources, read 2026-09-10:
 [npm registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry)

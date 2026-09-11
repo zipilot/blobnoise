@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import type { BlobConfig } from "@zipilot/blobnoise";
-import type { ExportCapabilities } from "@zipilot/blobnoise/export";
+import type { BlobConfig } from "@alejo-valencia/blobnoise";
+import type { ExportCapabilities } from "@alejo-valencia/blobnoise/export";
 import { errorMessage } from "../hooks/useStudioConfig";
 import { ColorField, Toggle } from "./Controls";
 import { Icon } from "./Icon";
@@ -48,7 +48,7 @@ export function ExportDialog({ config, time, onClose, notify }: {
     setCapabilityError("");
     if (!dimensionsValid) return;
     const timeout = window.setTimeout(() => {
-      void import("@zipilot/blobnoise/export").then(module => module.getExportCapabilities({
+      void import("@alejo-valencia/blobnoise/export").then(module => module.getExportCapabilities({
         width: widthNumber, height: heightNumber, fps,
       })).then(result => { if (active) setCapabilities(result); })
         .catch(reason => { if (active) setCapabilityError(errorMessage(reason)); });
@@ -65,7 +65,7 @@ export function ExportDialog({ config, time, onClose, notify }: {
     const abort = new AbortController();
     controller.current = abort;
     try {
-      const module = await import("@zipilot/blobnoise/export");
+      const module = await import("@alejo-valencia/blobnoise/export");
       const blob = format === "webp"
         ? await module.exportWebP(config, { width: widthNumber, height: heightNumber, timeSeconds: time, background: transparent ? "transparent" : background, signal: abort.signal })
         : await module.exportWebM(config, {

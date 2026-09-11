@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
-import { getPreset, presetNames, randomSeed, serializeConfig, type BlobConfig } from "@zipilot/blobnoise";
+import { getPreset, presetNames, randomSeed, serializeConfig, type BlobConfig } from "@alejo-valencia/blobnoise";
 import { useStudioConfig, errorMessage } from "./hooks/useStudioConfig";
 import { usePreview } from "./hooks/usePreview";
 import { ConfigDialog } from "./components/ConfigDialog";
@@ -111,6 +111,8 @@ export default function App() {
       <header className="app-header">
         <div className="brand"><span className="brand-symbol" aria-hidden="true"><i /><i /><i /></span><h1>blobnoise<span className="brand-dot">.</span></h1></div>
         <div className="header-actions">
+          <a className="button text-button github-link" href="https://github.com/alejo-valencia/blobnoise"
+            target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub"><Icon name="code" /><span>GitHub</span></a>
           <span className={`save-state ${studio.saveStatus === "unsaved" ? "save-error" : ""}`} role="status">
             <span className="status-dot" />{studio.saveStatus === "saved" ? "Saved locally" : studio.saveStatus === "saving" ? "Saving…" : "Not saved"}
           </span>

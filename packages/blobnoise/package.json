@@ -1,5 +1,5 @@
 {
-  "name": "@zipilot/blobnoise",
+  "name": "@alejo-valencia/blobnoise",
   "version": "0.1.0",
   "description": "Seeded organic Perlin textures, animated spheres and browser-native exports.",
   "type": "module",
@@ -47,12 +47,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zipilot/blobnoise.git",
+    "url": "git+https://github.com/alejo-valencia/blobnoise.git",
     "directory": "packages/blobnoise"
   },
   "homepage": "https://d16acm1lzz4dn2.cloudfront.net/",
   "bugs": {
-    "url": "https://github.com/zipilot/blobnoise/issues"
+    "url": "https://github.com/alejo-valencia/blobnoise/issues"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",

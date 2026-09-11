@@ -47,7 +47,7 @@ aws s3 cp apps/studio/dist/index.html "s3://$BUCKET/index.html" \
 
 aws cloudfront wait distribution-deployed --id "$DISTRIBUTION"
 INVALIDATION="$(aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION" \
-  --paths / /index.html /THIRD-PARTY-LICENSES.md \
+  --paths / /index.html /THIRD-PARTY-LICENSES.md /robots.txt /sitemap.xml /og-image.png /favicon.svg /apple-touch-icon.png /404.html \
   --query 'Invalidation.Id' --output text)"
 aws cloudfront wait invalidation-completed \
   --distribution-id "$DISTRIBUTION" --id "$INVALIDATION"

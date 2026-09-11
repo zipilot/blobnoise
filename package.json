@@ -8,13 +8,14 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace @blobnoise/studio --",
-    "build:package": "npm run build --workspace @zipilot/blobnoise",
+    "build:package": "npm run build --workspace @alejo-valencia/blobnoise",
     "build": "npm run build:package && npm run build --workspace @blobnoise/studio",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:browser": "playwright test",
     "smoke:studio": "node scripts/smoke-studio.mjs",
-    "check": "npm run typecheck && npm test && npm run build && npm run test:browser"
+    "check": "npm run typecheck && npm test && npm run build && npm run test:browser",
+    "generate:social": "node scripts/generate-social.mjs"
   },
   "overrides": {
     "esbuild": "0.28.2"

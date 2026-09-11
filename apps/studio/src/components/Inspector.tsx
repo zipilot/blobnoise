@@ -1,4 +1,4 @@
-import { type BlobConfig, type ColorStop } from "@zipilot/blobnoise";
+import { type BlobConfig, type ColorStop } from "@alejo-valencia/blobnoise";
 import { ColorField, LockButton, NumberField, Section, Toggle } from "./Controls";
 import { Icon } from "./Icon";
 

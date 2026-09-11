@@ -11,10 +11,10 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "paths": {
-      "@zipilot/blobnoise": ["./packages/blobnoise/src/index.ts"],
-      "@zipilot/blobnoise/browser": ["./packages/blobnoise/src/browser/index.ts"],
-      "@zipilot/blobnoise/export": ["./packages/blobnoise/src/export/index.ts"],
-      "@zipilot/blobnoise/react": ["./packages/blobnoise/src/react/index.tsx"]
+      "@alejo-valencia/blobnoise": ["./packages/blobnoise/src/index.ts"],
+      "@alejo-valencia/blobnoise/browser": ["./packages/blobnoise/src/browser/index.ts"],
+      "@alejo-valencia/blobnoise/export": ["./packages/blobnoise/src/export/index.ts"],
+      "@alejo-valencia/blobnoise/react": ["./packages/blobnoise/src/react/index.tsx"]
     }
   },
   "include": ["packages/**/*.ts", "packages/**/*.tsx", "apps/**/*.ts", "apps/**/*.tsx", "tests/**/*.ts", "*.ts"]

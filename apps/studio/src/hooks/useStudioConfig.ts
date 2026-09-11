@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createConfig, getPreset, parseConfig, serializeConfig, type BlobConfig } from "@zipilot/blobnoise";
+import { createConfig, getPreset, parseConfig, serializeConfig, type BlobConfig } from "@alejo-valencia/blobnoise";
 
 export const STORAGE_KEY = "blobnoise.studio.config.v1";
 const MAX_BYTES = 65_536;

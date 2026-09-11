@@ -5,9 +5,9 @@ Shape a cloudy material in the studio, save its configuration, and use the same
 renderer in your own JavaScript application.
 
 **[Open the live studio](https://d16acm1lzz4dn2.cloudfront.net/)**
-or browse [the source on GitHub](https://github.com/zipilot/blobnoise).
+or browse [the source on GitHub](https://github.com/alejo-valencia/blobnoise).
 The website is publicly hosted on AWS. The npm package uses the
-`@zipilot/blobnoise` scope and GitHub Packages registry.
+`@alejo-valencia/blobnoise` scope and GitHub Packages registry.
 See [implementation status](docs/status.md) for supported paths and limits.
 
 ## Run the studio
@@ -44,17 +44,17 @@ harness is development-only and is not a production build entry point.
 
 ## Install the package
 
-Published package:
-[`@zipilot/blobnoise@0.1.0`](https://github.com/orgs/zipilot/packages/npm/package/blobnoise).
-GitHub currently marks it **private**, so the installing account or workflow
-must have package access. The source repository and studio remain public.
+Package under the personal account: `@alejo-valencia/blobnoise`.
+GitHub registry authentication and package access are required. The source
+repository and studio are public. See [distribution status](docs/packages.md)
+for the current publication and visibility details.
 
-Configure GitHub's registry for the `@zipilot` scope, authenticate, then install:
+Configure GitHub's registry for the `@alejo-valencia` scope, authenticate, then install:
 
 ```sh
-npm config set @zipilot:registry=https://npm.pkg.github.com --location=project
-npm login --scope=@zipilot --auth-type=legacy --registry=https://npm.pkg.github.com
-npm install @zipilot/blobnoise@0.1.0
+npm config set @alejo-valencia:registry=https://npm.pkg.github.com --location=project
+npm login --scope=@alejo-valencia --auth-type=legacy --registry=https://npm.pkg.github.com
+npm install @alejo-valencia/blobnoise@0.1.0
 ```
 
 For `npm login`, use your GitHub username and a **personal access token
@@ -70,11 +70,11 @@ published to npmjs.org.
 ## Embed
 
 Import the scoped package after installation. Local source consumers can
-also build and use `npm pack --workspace @zipilot/blobnoise`.
+also build and use `npm pack --workspace @alejo-valencia/blobnoise`.
 
 ```js
-import { createConfig } from "@zipilot/blobnoise";
-import { createRenderer } from "@zipilot/blobnoise/browser";
+import { createConfig } from "@alejo-valencia/blobnoise";
+import { createRenderer } from "@alejo-valencia/blobnoise/browser";
 
 const canvas = document.querySelector("canvas");
 const config = createConfig({
@@ -95,7 +95,7 @@ imported during SSR, but creating a renderer needs an actual browser.
 ## Create assets
 
 ```js
-import { exportWebP, exportWebM } from "@zipilot/blobnoise/export";
+import { exportWebP, exportWebM } from "@alejo-valencia/blobnoise/export";
 
 const still = await exportWebP(config, {
   width: 2048, height: 2048, timeSeconds: 2, background: "transparent",
@@ -137,6 +137,8 @@ HTTPS delivery. It does not expose an EC2 development port.
 
 [Hosting instructions](docs/hosting.md) cover repeatable deployment, costs,
 rollback and SSH port forwarding for private development without Tailscale.
+[Search and social metadata](docs/seo.md) documents the crawlable site content,
+canonical URL, sitemap and original social image.
 
 ## Project layout
 

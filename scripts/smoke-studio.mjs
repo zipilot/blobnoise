@@ -27,14 +27,18 @@ try {
   page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
   const response = await page.goto(target.href);
   assert.equal(response?.status(), 200);
+  assert.ok((await response.text()).includes("Perlin noise texture and 3D sphere generator"));
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://d16acm1lzz4dn2.cloudfront.net/");
+  await expect(page.getByRole("link", { name: "View source on GitHub", exact: true }))
+    .toHaveAttribute("href", "https://github.com/alejo-valencia/blobnoise");
   await expect(page.getByRole("button", { name: "Play animation", exact: true })).toBeEnabled();
   await expect(page.getByRole("heading", { name: "blobnoise." })).toBeVisible();
   await page.getByRole("button", { name: "Get code", exact: true }).click();
   const snippet = await page.getByRole("textbox", { name: "JavaScript snippet" }).inputValue();
-  assert.ok(snippet.includes('from "@zipilot/blobnoise/browser"'));
+  assert.ok(snippet.includes('from "@alejo-valencia/blobnoise/browser"'));
   await expect(page.getByRole("dialog")).toContainText("GitHub Packages");
   await expect(page.getByRole("link", { name: "Package setup" }))
-    .toHaveAttribute("href", "https://github.com/zipilot/blobnoise#install-the-package");
+    .toHaveAttribute("href", "https://github.com/alejo-valencia/blobnoise#install-the-package");
   await page.getByRole("button", { name: "Close dialog" }).click();
   await expect(page.locator("body")).not.toContainText("Made of math. Shaped by you.");
   await expect(page.locator("body")).not.toContainText("A playground for the in-between");
@@ -97,6 +101,22 @@ try {
   assert.equal(media.height, 128);
   assert.ok(Math.abs(media.duration - 1) < 0.05);
   assert.deepEqual(errors, []);
+  const noScript = await browser.newPage({ javaScriptEnabled: false });
+  await noScript.goto(target.href);
+  await expect(noScript.locator(".site-info")).toContainText("WebP images or WebM loops");
+  await noScript.close();
+  const robots = await fetch(new URL("/robots.txt", target));
+  assert.equal(robots.status, 200);
+  assert.ok((await robots.text()).includes("Sitemap: https://d16acm1lzz4dn2.cloudfront.net/sitemap.xml"));
+  const sitemap = await fetch(new URL("/sitemap.xml", target));
+  assert.equal(sitemap.status, 200);
+  assert.ok((await sitemap.text()).includes("<loc>https://d16acm1lzz4dn2.cloudfront.net/</loc>"));
+  const social = await fetch(new URL("/og-image.png", target));
+  assert.equal(social.status, 200);
+  const socialBytes = Buffer.from(await social.arrayBuffer());
+  assert.equal(socialBytes.readUInt32BE(16), 1200);
+  assert.equal(socialBytes.readUInt32BE(20), 630);
+  assert.equal((await fetch(new URL("/this-page-does-not-exist", target))).status, 404);
   console.log(JSON.stringify({
     url: target.href, webpBytes: still.length, webmBytes: video.length, video: media, runtimeErrors: errors,
   }, null, 2));

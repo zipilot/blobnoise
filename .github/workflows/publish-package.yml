@@ -30,14 +30,14 @@ jobs:
           node-version: 22
           cache: npm
           registry-url: https://npm.pkg.github.com
-          scope: "@zipilot"
+          scope: "@alejo-valencia"
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
       - run: npm run build:package
       - name: Publish the version from package.json
         if: ${{ !inputs.verify_only }}
-        run: npm publish --workspace @zipilot/blobnoise
+        run: npm publish --workspace @alejo-valencia/blobnoise
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install and verify the actual registry package
@@ -45,6 +45,6 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Report package identity and visibility
-        run: gh api orgs/zipilot/packages/npm/blobnoise --jq '{name,visibility,html_url,repository:.repository.full_name}'
+        run: gh api users/alejo-valencia/packages/npm/blobnoise --jq '{name,visibility,html_url,repository:.repository.full_name}'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

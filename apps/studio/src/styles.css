@@ -45,6 +45,14 @@ svg { flex-shrink: 0; }
 .brand-symbol i:nth-child(2) { left: 5px; top: 5px; }
 .brand-symbol i:nth-child(3) { left: 9px; top: 0; }
 .header-actions { display: flex; align-items: center; gap: 10px; }
+.github-link { flex-shrink: 0; }
+.editor-placeholder { min-height: 70vh; padding: 40px; }
+.editor-placeholder h1 { font-size: 26px; margin-bottom: 12px; }
+.site-info { border-top: 1px solid var(--line); padding: 24px 38px 30px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.site-info h2 { color: var(--text); font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+.site-info p { max-width: 900px; }
+.site-info nav { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 12px; }
+.site-info a { color: var(--accent); text-decoration: underline; }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 37px; padding: 9px 14px; border-radius: 7px; font-size: 12px; font-weight: 550; transition: background 120ms, border-color 120ms; white-space: nowrap; }
 .primary { color: var(--accent-ink); background: var(--accent); border: 1px solid var(--accent); }
 .primary:hover:not(:disabled) { background: #d2c4f1; border-color: #d2c4f1; }
@@ -281,6 +289,8 @@ code { color: #d5bde9; font-size: 11px; }
   .brand h1 { font-size: 20px; }
   .brand-symbol { transform: scale(0.8) rotate(-25deg); width: 21px; }
   .header-actions { gap: 6px; }
+  .github-link svg { display: none; }
+  .site-info { padding: 22px 18px; }
   .header-actions .button { padding: 8px 10px; font-size: 10px; min-height: 34px; gap: 5px; }
   .header-actions .optional-label { display: none; }
   .header-actions .text-button { padding: 8px; }
@@ -320,6 +330,10 @@ code { color: #d5bde9; font-size: 11px; }
   .brand h1 { font-size: 19px; }
   .app-header { padding: 0 12px; }
   .header-actions .button { padding: 8px; }
+  .header-actions { gap: 3px; }
+  .header-actions .button { padding: 7px 6px; }
+  .header-actions .secondary svg { display: none; }
+  .header-actions .text-button[aria-label="Import configuration"] { padding: 7px 3px; }
   .main-column { padding-left: 14px; padding-right: 14px; }
   .mobile-controls { font-size: 9px; }
   .preview-stage { min-height: 320px; }

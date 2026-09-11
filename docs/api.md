@@ -2,8 +2,8 @@
 
 The package is ESM with TypeScript declarations. Imports do not initialize
 graphics contexts or start timers. Import the feature you need:
-`@zipilot/blobnoise`, `@zipilot/blobnoise/browser`,
-`@zipilot/blobnoise/export`, or `@zipilot/blobnoise/react`.
+`@alejo-valencia/blobnoise`, `@alejo-valencia/blobnoise/browser`,
+`@alejo-valencia/blobnoise/export`, or `@alejo-valencia/blobnoise/react`.
 
 ## Configuration
 
@@ -144,7 +144,7 @@ Do not treat a rejected export as a completed download.
 ## React
 
 ```tsx
-import { BlobNoise } from "@zipilot/blobnoise/react";
+import { BlobNoise } from "@alejo-valencia/blobnoise/react";
 
 <BlobNoise
   config={config}

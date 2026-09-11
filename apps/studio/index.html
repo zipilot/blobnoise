@@ -4,11 +4,72 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#141416" />
-    <meta name="description" content="An interactive playground for soft procedural textures. Shape, color, animate, and export entirely in your browser." />
-    <title>blobnoise — Texture studio</title>
+    <meta name="description" content="Create Perlin noise textures and animated 3D spheres. Customize colors, gradients and grain, then export WebP images, WebM loops and JavaScript configs." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://d16acm1lzz4dn2.cloudfront.net/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="blobnoise" />
+    <meta property="og:title" content="blobnoise | Perlin Noise Texture &amp; 3D Sphere Generator" />
+    <meta property="og:description" content="Create organic textures and animated spheres in your browser. Export images, video loops and reusable configurations." />
+    <meta property="og:url" content="https://d16acm1lzz4dn2.cloudfront.net/" />
+    <meta property="og:image" content="https://d16acm1lzz4dn2.cloudfront.net/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A cloudy purple and pink sphere generated with blobnoise's Perlin noise renderer." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="blobnoise | Perlin Noise Texture &amp; 3D Sphere Generator" />
+    <meta name="twitter:description" content="Create organic textures and animated spheres in your browser. Export images, video loops and reusable configurations." />
+    <meta name="twitter:image" content="https://d16acm1lzz4dn2.cloudfront.net/og-image.png" />
+    <meta name="twitter:image:alt" content="A cloudy purple and pink sphere generated with blobnoise's Perlin noise renderer." />
+    <title>blobnoise | Perlin Noise Texture &amp; 3D Sphere Generator</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "@id": "https://d16acm1lzz4dn2.cloudfront.net/#app",
+        "name": "blobnoise",
+        "url": "https://d16acm1lzz4dn2.cloudfront.net/",
+        "description": "A browser-based Perlin noise texture and animated 3D sphere generator with editable colors, gradients and grain, WebP and WebM downloads, and reusable JavaScript configurations.",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Web browser",
+        "browserRequirements": "Requires JavaScript and WebGL 2. Video export requires a supported WebCodecs encoder.",
+        "isAccessibleForFree": true,
+        "inLanguage": "en",
+        "license": "https://github.com/alejo-valencia/blobnoise/blob/main/LICENSE",
+        "sameAs": "https://github.com/alejo-valencia/blobnoise",
+        "image": "https://d16acm1lzz4dn2.cloudfront.net/og-image.png",
+        "featureList": [
+          "Perlin noise textures and 3D spheres",
+          "Editable colors, gradients and grain",
+          "Independent sphere rotation and evolving noise",
+          "WebP images, WebM loops and JSON/JavaScript configuration export"
+        ]
+      }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="editor-placeholder">
+        <h1>blobnoise</h1>
+        <p>Perlin noise textures and animated 3D spheres.</p>
+        <noscript><p>Enable JavaScript and WebGL 2 to use the editor. Source code and documentation are linked below.</p></noscript>
+      </div>
+    </div>
+    <footer class="site-info">
+      <h2>Perlin noise texture and 3D sphere generator</h2>
+      <p>blobnoise is an open-source browser tool for creating organic textures and animated spheres.
+        Adjust colors, gradients, distortion and grain, then download WebP images or WebM loops.
+        Save the JSON configuration or use the JavaScript package to embed a design in your own site.
+        Video export depends on browser support.</p>
+      <nav aria-label="Project resources">
+        <a href="https://github.com/alejo-valencia/blobnoise">Source code on GitHub</a>
+        <a href="https://github.com/alejo-valencia/blobnoise/blob/main/docs/api.md">JavaScript API</a>
+        <a href="https://github.com/alejo-valencia/blobnoise/blob/main/docs/packages.md">Package installation</a>
+      </nav>
+    </footer>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

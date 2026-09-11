@@ -1,15 +1,15 @@
 # Implementation status
 
-Updated: 2026-09-10. The source and studio are now public; browser support
+Updated: 2026-09-11. The source and studio are public; browser support
 and physical-device performance remain subject to the limits below.
 
-- Source: [zipilot/blobnoise](https://github.com/zipilot/blobnoise).
+- Source: [alejo-valencia/blobnoise](https://github.com/alejo-valencia/blobnoise).
 - Studio: [public CloudFront website](https://d16acm1lzz4dn2.cloudfront.net/).
 - Hosting: `blobnoise-studio` CloudFormation stack and S3 origin in us-east-2;
   CloudFront delivery is global.
-- npm-format package: `@zipilot/blobnoise@0.1.0`, published to GitHub Packages.
-  GitHub package visibility is currently private; installation requires an
-  identity with package access. No npmjs.org release was made.
+- npm-format package: `@alejo-valencia/blobnoise`, targeting the personal
+  GitHub account. Personal-scope publication verification is in progress.
+  The legacy `@zipilot/blobnoise@0.1.0` package has not been deleted.
 
 ## Package
 
@@ -83,7 +83,7 @@ AI image service, cloud save or telemetry is implemented.
 
 ## Release status
 
-GitHub Packages publication succeeded on 2026-09-10 through the repository's
+The legacy GitHub Packages publication succeeded on 2026-09-10 through the repository's
 Actions token. The release workflow installed version 0.1.0 from the actual
 registry in a clean temporary project, imported all four entry points,
 exercised the configuration/snippet contract and typechecked a consuming
@@ -91,7 +91,7 @@ project against the shipped declarations. This was not a workspace symlink
 or local tarball installation.
 
 Release run:
-<https://github.com/zipilot/blobnoise/actions/runs/34540877755>.
+<https://github.com/alejo-valencia/blobnoise/actions/runs/34540877755>.
 Registry authentication is required; see [package distribution](packages.md).
 The verification-only run confirmed actual package visibility is private
 despite requesting public access at publication. Source/studio visibility is
@@ -102,9 +102,10 @@ Source is committed and pushed to its own public GitHub repository. A distributa
 package archive and `apps/studio/dist` are generated artifacts,
 not tracked source or evidence of external publication.
 
-The repository is `zipilot/blobnoise`; the GitHub npm registry requires the
-scoped package name `@zipilot/blobnoise`. The earlier unscoped local name was
-never an npmjs.org release.
+The repository moved from `zipilot/blobnoise` to `alejo-valencia/blobnoise`
+on 2026-09-11. Git history and the live CloudFront URL are preserved. Current
+imports/publishing use `@alejo-valencia/blobnoise`; old registry scopes do not
+redirect with repository URLs. No package version was deleted or overwritten.
 MIT was selected as the implementation default for original project code.
 Mediabunny 1.56.1 is MPL-2.0, not MIT; its source availability and notices are
 documented in the project NOTICE and generated third-party license output.

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createRenderer } from "@zipilot/blobnoise/browser";
-import type { BlobConfig } from "@zipilot/blobnoise";
+import { createRenderer } from "@alejo-valencia/blobnoise/browser";
+import type { BlobConfig } from "@alejo-valencia/blobnoise";
 import { errorMessage } from "./useStudioConfig";
 
 export function usePreview(config: BlobConfig) {

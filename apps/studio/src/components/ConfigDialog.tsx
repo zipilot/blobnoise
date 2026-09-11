@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent } from "react";
-import { createSnippet, serializeConfig, type BlobConfig } from "@zipilot/blobnoise";
+import { createSnippet, serializeConfig, type BlobConfig } from "@alejo-valencia/blobnoise";
 import { errorMessage, parseImport } from "../hooks/useStudioConfig";
 import { Icon } from "./Icon";
 import { Modal } from "./Modal";
@@ -48,8 +48,8 @@ export function ConfigDialog({ mode, config, onImport, onClose, notify }: {
   return (
     <Modal title={mode === "code" ? "Code and configuration" : "Import configuration"} onClose={onClose} wide>
       {mode === "code" ? <>
-        <p className="modal-description">Use <code>@zipilot/blobnoise</code> from GitHub Packages. Configure the registry and GitHub authentication using the setup instructions.</p>
-        <div className="code-caption"><span>JavaScript · browser</span><a href="https://github.com/zipilot/blobnoise#install-the-package" target="_blank" rel="noreferrer">Package setup</a></div>
+        <p className="modal-description">Use <code>@alejo-valencia/blobnoise</code> from GitHub Packages. Configure the registry and GitHub authentication using the setup instructions.</p>
+        <div className="code-caption"><span>JavaScript · browser</span><a href="https://github.com/alejo-valencia/blobnoise#install-the-package" target="_blank" rel="noreferrer">Package setup</a></div>
         <textarea className="code-area" aria-label="JavaScript snippet" readOnly value={snippet} spellCheck={false} />
         {error && <p className="error-message" role="alert">{error}</p>}
         <div className="modal-actions">

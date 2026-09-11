@@ -130,7 +130,7 @@ export function serializeConfig(config: BlobConfig): string {
 }
 
 export function createSnippet(config: BlobConfig): string {
-  return `import { createRenderer } from "@zipilot/blobnoise/browser";
+  return `import { createRenderer } from "@alejo-valencia/blobnoise/browser";
 
 const config = ${serializeConfig(config)};
 const canvas = document.createElement("canvas");
