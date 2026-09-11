@@ -44,10 +44,11 @@ harness is development-only and is not a production build entry point.
 
 ## Install the package
 
-Package under the personal account: `@alejo-valencia/blobnoise`.
-GitHub registry authentication and package access are required. The source
-repository and studio are public. See [distribution status](docs/packages.md)
-for the current publication and visibility details.
+Published package:
+[`@alejo-valencia/blobnoise@0.1.0`](https://github.com/users/alejo-valencia/packages/npm/package/blobnoise).
+The package, source repository and studio are public. GitHub's npm registry
+still requires authentication. See [distribution status](docs/packages.md)
+for installation and access details.
 
 Configure GitHub's registry for the `@alejo-valencia` scope, authenticate, then install:
 

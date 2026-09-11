@@ -4,19 +4,25 @@ Package: `@alejo-valencia/blobnoise`
 
 Registry: `https://npm.pkg.github.com`
 
-Personal-scope release: `0.1.0` (publication verification pending).
+Published personal-scope release: `0.1.0` (2026-09-11).
+
+Package page:
+<https://github.com/users/alejo-valencia/packages/npm/package/blobnoise>
+
+**Registry visibility: public**, confirmed by the package API in the
+[personal release workflow](https://github.com/alejo-valencia/blobnoise/actions/runs/34548634845).
+The workflow published version 0.1.0, installed its actual registry tarball
+in a clean consumer and exercised all four imports, configuration/snippet
+behavior and shipped TypeScript declarations.
 
 The repository moved to
 [alejo-valencia/blobnoise](https://github.com/alejo-valencia/blobnoise) on
 2026-09-11. GitHub's granular npm packages do not move with repositories, so
 the personal account uses a new scope. Authentication remains required.
 
-To enable public package visibility, a package administrator
-must open the package page, choose **Package settings**, and change visibility
-to **Public**. GitHub documents this as a web-settings action; no browser
-session or broader personal credentials were provisioned by this project.
-Installation requires an identity with package access.
-Even after making it public, GitHub's npm registry still requires authentication.
+The personal package and its source repository are public. GitHub's npm
+registry still requires authentication for public packages; repository
+ownership and registry authentication are separate concerns.
 
 This is an npm-format package on GitHub Packages, not a publication to
 npmjs.org. The GitHub registry requires a scope, so earlier local examples

@@ -46,6 +46,11 @@ smoke command checks these surfaces and the live HTTP 404 behavior alongside
 real media exports. Site assets use HTTPS, immutable hashed bundles and
 revalidated HTML.
 
+On 2026-09-11, the production smoke flow succeeded under the deployed
+CloudFront security headers, without loosening the script policy for JSON-LD.
+The sitemap and 1200 x 630 PNG were publicly available, missing pages returned
+404, and the visible GitHub link fit desktop and 320-pixel layouts.
+
 This makes the site crawlable and provides accurate search/social metadata.
 It does not prove the site is already indexed, guarantee rankings, or force
 Google to use the supplied description. Search Console submission/inspection

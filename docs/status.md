@@ -7,8 +7,8 @@ and physical-device performance remain subject to the limits below.
 - Studio: [public CloudFront website](https://d16acm1lzz4dn2.cloudfront.net/).
 - Hosting: `blobnoise-studio` CloudFormation stack and S3 origin in us-east-2;
   CloudFront delivery is global.
-- npm-format package: `@alejo-valencia/blobnoise`, targeting the personal
-  GitHub account. Personal-scope publication verification is in progress.
+- npm-format package: `@alejo-valencia/blobnoise@0.1.0`, published under the
+  personal account with public visibility. Registry authentication is required.
   The legacy `@zipilot/blobnoise@0.1.0` package has not been deleted.
 
 ## Package
@@ -82,6 +82,30 @@ encoder cleanup. No worker/offscreen renderer, server renderer, HTTP service,
 AI image service, cloud save or telemetry is implemented.
 
 ## Release status
+
+### Personal ownership and discoverability, 2026-09-11
+
+The transferred source and SEO changes are live. The editor links to the
+personal GitHub repository. Initial HTML contains a useful visible description,
+canonical/title/description metadata, Open Graph and Twitter cards, and
+accurate WebApplication structured data. Robots, sitemap, original social
+images and a real HTTP 404 page are served through the existing CloudFront
+URL. The page's information remains available without JavaScript.
+
+The [personal release workflow](https://github.com/alejo-valencia/blobnoise/actions/runs/34548634845)
+published `@alejo-valencia/blobnoise@0.1.0`, verified an actual registry install
+and reported **public** package visibility. The
+[transferred-repository CI run](https://github.com/alejo-valencia/blobnoise/actions/runs/34548625146)
+passed all 84 unit tests, package/studio builds and 26 browser tests. The
+public smoke flow exercised source links, scoped snippets, no-JavaScript
+content, robots/sitemap/social assets, HTTP 404 and WebP/WebM downloads
+without runtime errors. Desktop and 320-pixel mobile layouts were inspected.
+
+Search-engine crawling/indexing timing and rankings remain outside the
+application's control. No Search Console submission or indexing result is
+claimed. See [search metadata](seo.md).
+
+### Legacy organization version, 2026-09-10
 
 The legacy GitHub Packages publication succeeded on 2026-09-10 through the repository's
 Actions token. The release workflow installed version 0.1.0 from the actual
